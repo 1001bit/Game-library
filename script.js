@@ -23,7 +23,7 @@ let velY = 0;
 let speed = 7;
 
 let snakeParts = [];
-let length = 0;
+let length = 1;
 
 // setting apple position
 let appleX = Math.floor(Math.random() * tileCount);
@@ -87,31 +87,32 @@ function checkCollision(){
         appleX = Math.floor(Math.random() * tileCount);
         appleY = Math.floor(Math.random() * tileCount);
         scoreText.innerHTML = "Score: " + length;
-    }
-    // GAME OVER COLLISIONS - body collision
-    for(let i = 0; i < snakeParts.length; i++){
-        if(headX == snakeParts[i].x && headY == snakeParts[i].y){
-            appleX = Math.floor(Math.random() * tileCount);
-            appleY = Math.floor(Math.random() * tileCount);
-            headX = Math.floor(Math.random() * tileCount);
-            headY = Math.floor(Math.random() * tileCount);
-            velX = 0;
-            velY = 0;
-            length = 0;
-            snakeParts = [];
+        if(length % 4 == 0){
+            speed++;
         }
     }
-    // GAME OVER COLLISIONS - wall collision
-    if(headX < 0 || headX > tileCount - 1 || headY < 0 || headY > tileCount - 1){
-        appleX = Math.floor(Math.random() * tileCount);
-        appleY = Math.floor(Math.random() * tileCount);
-        headX = Math.floor(Math.random() * tileCount);
-        headY = Math.floor(Math.random() * tileCount);
-        velX = 0;
-        velY = 0;
-        length = 0;
-        snakeParts = [];
+    // GAME OVER COLLISIONS 
+    for(let i = 0; i < snakeParts.length; i++){
+        if(headX == snakeParts[i].x && headY == snakeParts[i].y){
+            gameOver();
+        }
     }
+    if(headX < 0 || headX > tileCount - 1 || headY < 0 || headY > tileCount - 1){
+        gameOver();
+    }
+}
+
+function gameOver(){
+    appleX = Math.floor(Math.random() * tileCount);
+    appleY = Math.floor(Math.random() * tileCount);
+    headX = Math.floor(Math.random() * tileCount);
+    headY = Math.floor(Math.random() * tileCount);
+    velX = 0;
+    velY = 0;
+    length = 0;
+    snakeParts = [];
+    speed = 7;
+    scoreText.innerHTML = "Score: " + length;
 }
 
 //////////////////////////////////////////////////////////
@@ -120,10 +121,11 @@ function checkCollision(){
 document.body.addEventListener('keydown', keyDown);
 function keyDown(event){
     switch(event.keyCode){
-        case 87: velY = -1; velX = 0; break;
-        case 83: velY = 1; velX = 0; break;
-        case 65: velY = 0; velX = -1; break;
-        case 68: velY = 0; velX = 1; break;
+        case 87: if(velY != 1) velY = -1; velX = 0; break;
+        case 83: if(velY != -1) velY = 1; velX = 0; break;
+        case 65: velY = 0; if(velX != 1) velX = -1; break;
+        case 68: velY = 0; if(velX != -1) velX = 1; break;
+
         default: break;
     }
 }
