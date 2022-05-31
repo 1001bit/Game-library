@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Minesweeper</title>
+        <style>
+            body{
+                margin: 0px;
+                padding: 0px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+            canvas {
+                box-shadow: black 20px 10px 50px;
+            }
+            h1 {
+                margin: 30px;
+                padding: 0px;
+            }
+            #switch {
+                padding-top: 20px;
+            }
+        </style>
+    </head>
+    <body oncontextmenu="return false;">
+        <h1>Minesweeper</h1>
+        <h2 id="flags">Flags: 0</h2>
+        <h2 id="time">Time: 0</h2>
+        <canvas id="game" height="600" width="600"></canvas>
+        <img id="switch" src="cursor.png" width="70">
+
+        <script src="script.js"></script>
+    </body>
+</html>
